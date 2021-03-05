@@ -1,0 +1,99 @@
+<body></body>
+<script src="/three.js"></script>
+<script>
+  // The "scene" is where stuff in our game will happen:
+  var scene = new THREE.Scene();
+  var flat = {flatShading: true};
+  var light = new THREE.AmbientLight('white', 0.8);
+  scene.add(light);
+
+  // The "camera" is what sees the stuff:
+  var aspectRatio = window.innerWidth / window.innerHeight;
+  var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
+  camera.position.z = 500;
+  scene.add(camera);
+
+  // The "renderer" draws what the camera sees onto the screen:
+  var renderer = new THREE.WebGLRenderer({antialias: true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+// ******** START CODING ON THE NEXT LINE ********
+
+//const loader = new THREE.TextureLoader();
+
+//loader.load('https://makeanythingblog.files.wordpress.com/2012/07/beettexture.jpg', (texture) => {
+//const material = new THREE.MeshBasicMaterial({
+//map: texture});
+
+
+var base = new THREE.CylinderGeometry(80,80,20,200);
+var tartaa = new THREE.CylinderGeometry(65,65,20,200);
+var tartaaa = new THREE.CylinderGeometry(50,50,20,200);
+var tartaaaa = new THREE.CylinderGeometry(35,35,15,200);
+var vela = new THREE.CylinderGeometry(2,2,20,50);
+var flat = new THREE.MeshNormalMaterial(flat);
+
+var tarta = new THREE.Mesh(base, flat);
+var tarta1 = new THREE.Mesh(tartaa, flat);
+var tarta2 = new THREE.Mesh(tartaaa, flat);
+var tarta3 = new THREE.Mesh(tartaaaa, flat );
+var vela1 = new THREE.Mesh(vela, flat);
+var vela2 = new THREE.Mesh(vela, flat);
+var vela3 = new THREE.Mesh(vela, flat);
+var vela4 = new THREE.Mesh(vela, flat);
+var vela5 = new THREE.Mesh(vela, flat);
+
+const geometry = new THREE.ConeGeometry( 5, 20, 32 );
+var material1 = new THREE.MeshPhongMaterial({color : 'red'});
+
+var cono = new THREE.Mesh(geometry, material1);
+var cono2= new THREE.Mesh(geometry, material1);
+var cono3= new THREE.Mesh(geometry, material1);
+var cono4= new THREE.Mesh(geometry, material1);
+var cono5= new THREE.Mesh(geometry, material1);
+
+
+
+scene.add(tarta);
+scene.add(tarta1);
+scene.add(tarta2);
+scene.add(tarta3);
+scene.add(vela1);
+scene.add(vela1);
+scene.add(vela2);
+scene.add(vela3);
+scene.add(vela4);
+scene.add(vela5);
+scene.add(cono);
+scene.add(cono2);
+scene.add(cono3);
+scene.add(cono4);
+scene.add(cono5);
+
+tarta1.position.set(0, 20, 0);
+tarta2.position.set(0, 40, 0);
+tarta3.position.set(0, 60, 0);
+
+vela1.position.set(20,75,20);
+vela2.position.set(-20, 75, 20);
+vela3.position.set(-20, 75, -20);
+vela4.position.set(20, 75, -20);
+vela5.position.set(0, 75, 0);
+
+cono.position.set(0, 95, 0);
+cono2.position.set(20,95, 20);
+cono3.position.set(-20,95, 20);
+cono4.position.set(-20,95, -20);
+cono5.position.set(20, 95, -20);
+
+camera.position.set(0, 100, 200);
+camera.lookAt(tarta.position);
+
+//});
+// Animation code goes here...
+    
+  // Now, show what the camera sees on the screen:
+  
+  renderer.render(scene, camera);
+</script>
