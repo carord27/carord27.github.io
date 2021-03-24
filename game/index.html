@@ -66,8 +66,12 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
     
 
 // Animation code goes here...
-    document.addEventListener('keydown', teclaApretada);
-  function teclaApretada(event){
+// Animation code goes here...
+    
+  // Now, show what the camera sees on the screen:
+  
+document.addEventListener('keydown', teclaApretada);
+function teclaApretada(event){
     var code = event.code;
     if (code == 'ArrowLeft') avatar.position.x = avatar.position.x - 5;
     if (code == 'ArrowRight') avatar.position.x = avatar.position.x + 5;
@@ -76,6 +80,8 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
 
 
 }
+
+   
   // Now, show what the camera sees on the screen:
   
  function animate(){
