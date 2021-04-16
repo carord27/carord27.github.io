@@ -101,10 +101,20 @@ function teclaApretada(event){
        scene.add(tronco_marron);
    }
     
-    crearArbol(0, 500);
-    crearArbol(500, 0);
-    crearArbol(-500, 0);
-    crearArbol(0, -500);
+    //crearArbol(0, 500);
+    //crearArbol(500, 0);
+    //crearArbol(-500, 0);
+    //crearArbol(0, -500);
+  
+    function crearCampoAleatorio(numArboles, ancho, largo){
+    for (var i=0; i< numArboles; i++) {
+        var x = Math.random()*ancho-ancho/2;
+        var z = Math.random()*largo-largo/2;
+        makeTreeAt(x,z);
+    }
+    }
+   
+    crearCampoAleatorio(20,5000,5000);
       
   // Now, show what the camera sees on the screen:
   
