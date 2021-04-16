@@ -86,7 +86,26 @@ function teclaApretada(event){
 
 }
 
-   
+    function crearArbol(x, z){
+       var tronco = new THREE.CylinderGeometry(50, 50, 200);
+           var marron = new THREE.MeshBasicMaterial({color : 'sienna'});
+               var tronco_marron = new THREE.Mesh(tronco, marron);  
+       
+       var copa = new THREE.SphereGeometry(150);
+       var verde = new THREE.MeshBasicMaterial({color : 'forestgreen'});
+       var copa_verde= new THREE.Mesh(copa, verde);
+       
+       copa_verde.position.y= 175;
+       tronco_marron.add(copa_verde);
+       tronco_marron.position.set(x, -75, z);
+       scene.add(tronco_marron);
+   }
+    
+    crearArbol(0, 500);
+    crearArbol(500, 0);
+    crearArbol(-500, 0);
+    crearArbol(0, -500);
+      
   // Now, show what the camera sees on the screen:
   
  function animate(){
