@@ -15,7 +15,7 @@ scene.add(light2);
 // The "camera" is what sees the stuff:
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
-  camera.position.z = 500;
+ camera.position.set(0, 0, 500);
   scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
@@ -86,26 +86,22 @@ function teclaApretada(event){
 
 }
 
-    function crearArbol(x, z){
-       var tronco = new THREE.CylinderGeometry(50, 50, 200);
-           var marron = new THREE.MeshBasicMaterial({color : 'sienna'});
-               var tronco_marron = new THREE.Mesh(tronco, marron);  
+function makeTreeAt(x, z){
+        let trunk = new THREE.Mesh(
+        new THREE.CylinderGeometry (50,50,200),
+        new THREE.MeshBasicMaterial({color: "sienna"}));
+   
+        var top  = new THREE.Mesh(
+            new THREE.SphereGeometry(150),
+            new THREE.MeshBasicMaterial({color: "forestgreen"}));
        
-       var copa = new THREE.SphereGeometry(150);
-       var verde = new THREE.MeshBasicMaterial({color : 'forestgreen'});
-       var copa_verde= new THREE.Mesh(copa, verde);
+        top.position.y=175;
+        trunk.add(top);
        
-       copa_verde.position.y= 175;
-       tronco_marron.add(copa_verde);
-       tronco_marron.position.set(x, -75, z);
-       scene.add(tronco_marron);
-   }
-    
-    //crearArbol(0, 500);
-    //crearArbol(500, 0);
-    //crearArbol(-500, 0);
-    //crearArbol(0, -500);
-  
+        trunk.position.set(x, -75, z);
+        scene.add(trunk);
+    }
+   
     function crearCampoAleatorio(numArboles, ancho, largo){
     for (var i=0; i< numArboles; i++) {
         var x = Math.random()*ancho-ancho/2;
@@ -114,8 +110,8 @@ function teclaApretada(event){
     }
     }
    
-    crearCampoAleatorio(20,5000,5000);
-      
+    crearCampoAleatorio(20,5000,5000)
+   
   // Now, show what the camera sees on the screen:
   
  function animate(){
