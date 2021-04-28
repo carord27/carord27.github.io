@@ -84,9 +84,7 @@ function teclaApretada(event){
      
 
 
-}
-
-function makeTreeAt(x, z){
+    function makeTreeAt(x, z){
         let trunk = new THREE.Mesh(
         new THREE.CylinderGeometry (50,50,200),
         new THREE.MeshBasicMaterial({color: "sienna"}));
@@ -102,15 +100,31 @@ function makeTreeAt(x, z){
         scene.add(trunk);
     }
    
-    function crearCampoAleatorio(numArboles, ancho, largo){
-    for (var i=0; i< numArboles; i++) {
-        var x = Math.random()*ancho-ancho/2;
-        var z = Math.random()*largo-largo/2;
-        makeTreeAt(x,z);
-    }
-    }
+   // function crearCampoAleatorio(numArboles, ancho, largo){
+   // for (var i=0; i< numArboles; i++) {
+     //   var x = Math.random()*ancho-ancho/2;
+       // var z = Math.random()*largo-largo/2;
+        //makeTreeAt(x,z);
+    //}
+    //}
    
-    crearCampoAleatorio(20,5000,5000)
+    //crearCampoAleatorio(20,5000,5000);
+   
+       var distancia_arboles = 200
+    var minimo_x = -4000;
+    var maximo_x = 4000;
+    var minimo_z = -4000;
+    var maximo_z = 4000;
+
+
+
+
+    for (var x=-3000;x<=3000;x=x+400+distancia_arboles) {
+    for (var z=-4000;z<=4000;z=z+400+distancia_arboles) {
+        makeTreeAt(x,z)
+        }    
+    }
+    
    
   // Now, show what the camera sees on the screen:
   
