@@ -130,10 +130,13 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
         let codigo = e.code;
         
         if (codigo == 'KeyE') {
- marcador.position.z += 5;       
+   //marcador.position.z += 5;
+            avanzar(marcador.rotation.y+Math.PI);    
         }
         if (codigo == 'KeyQ') {
             marcador.position.z -=5;
+            avanzar(marcador.rotation.y);
+
         }
         if (codigo == 'KeyA') {
             marcador.position.x -= 5;
@@ -143,9 +146,12 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
         }
         if (codigo == 'KeyW') {
             marcador.position.y += 5;
+            marcador.rotation.y = marcador.rotation.y % (2*Math.PI);
         }
         if (codigo == 'KeyS') {
             marcador.position.y -= 5;
+         marcador.rotation.y = marcador.rotation.y % (2*Math.PI);
+
         }
         if (codigo == 'KeyC') {
             isCartWheeling = !isCartWheeling;
@@ -153,7 +159,31 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
         if (codigo == 'KeyF') {
             isCartWheeling2 = !isCartWheeling2;
         }
+        if (codigo == 'ArrowRight') {
+            //console.log("Derecha");
+            marcador.rotation.y += 0.01;
+        }
+           if (codigo == 'ArrowLeft') {
+            //console.log("Izquierda");
+            marcador.rotation.y -= 0.01;
+        }
     }
+
+   function avanzar(direccion) {
+        direccion += Math.PI/2;
+        console.log("Radianes:" + (direccion));
+        console.log("Grados:" + direccion*180/Math.PI);
+        console.log("Sen(direccion):" + Math.sin(direccion));
+        console.log("Cos(direccion):" + Math.cos(direccion));
+
+        marcador.position.z -= 20*Math.sin(direccion);
+        marcador.position.x -= 20*Math.cos(direccion);
+    }
+
+
+    
+    
+    
   // Now, show what the camera sees on the screen:
     
     function animate() {
