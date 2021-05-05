@@ -1,36 +1,38 @@
 <body></body>
 <script src="/lib/three.js"></script>
+
 <script>
   // The "scene" is where stuff in our game will happen:
   var scene = new THREE.Scene();
   var flat = {flatShading: true};
   var light = new THREE.AmbientLight('white', 0.8);
-  scene.add(light);
     
-//segunda luz
-light2 = new THREE.DirectionalLight('white',1)
-light2.position.set(100,200,10);
-scene.add(light2);
-
-// The "camera" is what sees the stuff:
+  scene.add(light);
+    var point = new THREE.PointLight( 'white', 0.5 );
+point.position.set( 50, 80, 200 );
+scene.add( point );
+  // The "camera" is what sees the stuff:
   var aspectRatio = window.innerWidth / window.innerHeight;
   var camera = new THREE.PerspectiveCamera(75, aspectRatio, 1, 10000);
- camera.position.set(0, 0, 500);
+  camera.position.z = 1000;
+  camera.position.y = 500
   scene.add(camera);
 
   // The "renderer" draws what the camera sees onto the screen:
   var renderer = new THREE.WebGLRenderer({antialias: true});
   renderer.setSize(window.innerWidth, window.innerHeight);
   document.body.appendChild(renderer.domElement);
-
-// ******** START CODING ON THE NEXT LINE ********
-
+    
+    
+    
+  // ******** START CODING ON THE NEXT LINE ********
 var body = new THREE.SphereGeometry(100, 20, 15);
 var cover = new THREE.MeshNormalMaterial(flat);
 var avatar = new THREE.Mesh(body, cover);
+    
 scene.add(avatar);
-     
-var hand = new THREE.SphereGeometry(50);
+    
+    var hand = new THREE.SphereGeometry(50);
     
 var rightHand = new THREE.Mesh(hand, cover);
 rightHand.position.set(-150, 0, 0);
@@ -62,90 +64,107 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
     avatar.add(plano);
     plano.position.set(0, 100, 0);
     
-    
-    
 
-// Animation code goes here...
-// Animation code goes here...
+    camera.lookAt(avatar.position);
+
+    function crearArbol(x,z) {
+        var tronco = new THREE.CylinderGeometry(50,50,200);
+        var textura = new THREE.MeshBasicMaterial({color:'sienna'});
+        var tronco_sienna = new THREE.Mesh(tronco, textura);
+        
+        var copa = new THREE.SphereGeometry(150);
+        var verde = new THREE.MeshBasicMaterial({color:'forestgreen'});
+        var copa_verde = new THREE.Mesh(copa, verde);
+        
+        copa_verde.position.y = 175;
+        tronco_sienna.add(copa_verde);
+        tronco_sienna.position.set(x, -75, z);
+        scene.add (tronco_sienna);
+    }
     
+    function crearArboles(cantidad, ancho, largo) {
+        var ancho = 10000;
+        var largo = 10000;
+        for(var i= 1; i<cantidad; i++) {
+            var x = Math.random()*ancho-ancho/2;
+            var z = Math.random()*largo-largo/2;
+            crearArbol(x,z);
+      
+        }
+    }
+
+      
+
+    function crearFilaArboles(z, minimo_x, maximo_x, paso_x) {
+        var minimo_x = -5000;
+        var maximo_x = 5000;
+        var paso_x = 1000;
+        for(var x=minimo_x; x<maximo_x; x=x+paso_x) {
+            crearArbol(x,z);
+        }
+
+    }
+
+    function crearCampoArboles(minimo_x, minimo_z, maximo_x, maximo_z, paso) {
+        var paso = 1000;
+        var minimo_z = -5000;
+        var maximo_z = 5000;
+        for(var z=minimo_z; z<maximo_z; z=z+paso) {
+            crearFilaArboles(z, minimo_x, maximo_x, paso);
+
+        }
+    }
+
+    //crearFilaArboles(0,-5000,5000,500);
+    crearCampoArboles(-5000,-5000,5000,5000,900);
+
+
+    let isCartWheeling = true;
+    let isCartWheeling2 = false;
+
+    document.addEventListener('keydown', teclaApretada);
+    function teclaApretada(e) {
+        //alert(e.code);
+        let codigo = e.code;
+        
+        if (codigo == 'KeyE') {
+            avatar.position.z += 5;
+        }
+        if (codigo == 'KeyQ') {
+            avatar.position.z -=5;
+        }
+        if (codigo == 'KeyA') {
+            avatar.position.x -= 5;
+        }
+        if (codigo == 'KeyD') {
+            avatar.position.x += 5;
+        }
+        if (codigo == 'KeyW') {
+            avatar.position.y += 5;
+        }
+        if (codigo == 'KeyS') {
+            avatar.position.y -= 5;
+        }
+        if (codigo == 'KeyC') {
+            isCartWheeling = !isCartWheeling;
+        }
+        if (codigo == 'KeyF') {
+            isCartWheeling2 = !isCartWheeling2;
+        }
+    }
   // Now, show what the camera sees on the screen:
-     let isCartweeling = false;
-    var isFlipping = false;
-  
-document.addEventListener('keydown', teclaApretada);
-function teclaApretada(event){
-    var code = event.code;
-    if (code == 'ArrowLeft') avatar.position.x = avatar.position.x - 5;
-    if (code == 'ArrowRight') avatar.position.x = avatar.position.x + 5;
- if (code == 'ArrowUp') avatar.position.z = avatar.position.z - 5;
-    if (code == 'ArrowDown') avatar.position.z = avatar.position.z + 5;
-  if (code == 'KeyC') isCartweeling = !isCartweeling;
-    if(code == 'KeyF') isFlipping = !isFlipping;
-     
-
-
-    function makeTreeAt(x, z){
-        let trunk = new THREE.Mesh(
-        new THREE.CylinderGeometry (50,50,200),
-        new THREE.MeshBasicMaterial({color: "sienna"}));
-   
-        var top  = new THREE.Mesh(
-            new THREE.SphereGeometry(150),
-            new THREE.MeshBasicMaterial({color: "forestgreen"}));
-       
-        top.position.y=175;
-        trunk.add(top);
-       
-        trunk.position.set(x, -75, z);
-        scene.add(trunk);
+    
+    function animate() {
+        requestAnimationFrame(animate);
+        
+        if (isCartWheeling) {
+            avatar.rotation.z = avatar.rotation.z + 0.05;
+        }
+        if (isCartWheeling2) {
+            avatar.rotation.x = avatar.rotation.x + 0.05;
+        }
+        
+        renderer.render(scene,camera);
     }
-   
-   // function crearCampoAleatorio(numArboles, ancho, largo){
-   // for (var i=0; i< numArboles; i++) {
-     //   var x = Math.random()*ancho-ancho/2;
-       // var z = Math.random()*largo-largo/2;
-        //makeTreeAt(x,z);
-    //}
-    //}
-   
-    //crearCampoAleatorio(20,5000,5000);
-   
-       var distancia_arboles = 200
-    var minimo_x = -4000;
-    var maximo_x = 4000;
-    var minimo_z = -4000;
-    var maximo_z = 4000;
-
-
-
-
-    for (var x=-3000;x<=3000;x=x+400+distancia_arboles) {
-    for (var z=-4000;z<=4000;z=z+400+distancia_arboles) {
-        makeTreeAt(x,z)
-        }    
-    }
-    
-   
-  // Now, show what the camera sees on the screen:
-  
- function animate(){
-    requestAnimationFrame(animate);
-    //ANIMACIÓN
-    avatar.rotation.z = avatar.rotation.z + 0.05;
-        if (isCartweeling) {
-        avatar.rotation.z = avatar.rotation.z + 0.05;
-    }
-    
-    if(isFlipping) {
-        avatar.rotation.x = avatar.rotation.x + 0.05;
-    }
-    avatar.rotation.z = avatar.rotation.z + 0.05;
-    
-    
-    renderer.render(scene, camera);
-
-    
-}
-  
     animate();
 </script>
