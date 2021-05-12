@@ -1,6 +1,7 @@
 <body></body>
 <script src="/lib/three.js"></script>
 <script src=/lib/Scoreboard.js> </script>
+<script src=/lib/tween.umd.js> </script>
 <script>
   // The "scene" is where stuff in our game will happen:
   var scene = new THREE.Scene();
@@ -88,7 +89,7 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
         copa_verde.position.y = 175;
         tronco_sienna.add(copa_verde);
         tronco_sienna.position.set(x, -75, z);
-        
+       
         //Añadimos el límite de colisiones
         var circulo = new THREE.CircleGeometry(300);
         var invisible = new THREE.MeshNormalMaterial();
@@ -98,6 +99,7 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
         tronco_sienna.add(limite);
        
         listaColision.push(limite);
+        treeTops.push(copa);
 
        
         scene.add (tronco_sienna);
@@ -138,37 +140,83 @@ var shape = new THREE.CylinderGeometry(100, 100, 10);
    
     //crearFilaArboles(0,-5000,5000,500);
     //Creación de los objetos del mundo
-    
+   
     var scoreboard= new Scoreboard();
     scoreboard.countdown(45);
     scoreboard.score();
-    scoreboard.help( 
+    scoreboard.help(
         'Toca las teclas para moverte' +
         'Usa la tecla espacio para saltar' +
         'Busca árboles con frutas para recolectar' +
         'Acércate al árbol y salta para atrapar la fruta antes de que se vaya'
-    
-    
+   
+   
     );
+   
     scoreboard.onTimeExpired(timeExpired);
 function timeExpired(){
     scoreboard.message('¡Has perdido!');
 }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+   
+   
+    //Tesoro:::
+   
+    var treasureTreeNUmber;
+    function updateTreasureTreeNumber(){
+        var rand = Math.random()*treeTops.length;
+            treasureTreeNumber = Math.floor(rand);        
+    }
 
-    
-    
-    
+    function shakeTreeUpdate(update){
+        var top = treeTops[treasureTreeNumber];
+        top.position.x = 50 * Math.sin(update.shake);
+    }
+   
+   
+   
+        function shakeTreasureTree(){
+            updateTreasureTreeNumber();
+            var tween = new TWEEN.Tween({shake: 0});
+            tween.to({shake: 20*2*Math.PI}, 8*1000);
+            tween.onUpdate(shakeTreeUpdate);
+            tween.onComplete(shakeTreeComplete);
+            tween.start();  
+                            }
+   
+
+   
+   
+   
+   
+    function shakeTreeComplete(){
+        var top = treeTops[treasureTreeNumber];
+        top.position.x=0;
+        setTimeout(shakeTreasureTree, 2*1000);
+}
+
+   
+   
+   
+   
+        var treeTops =[];
+    shakeTreasureTree();
+
     listaColision = [];
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
     crearCampoArboles(-5000,-5000,5000,5000,900);
    
    
@@ -260,4 +308,4 @@ function timeExpired(){
         renderer.render(scene,camera);
     }
     animate();
-</script>
+</script
